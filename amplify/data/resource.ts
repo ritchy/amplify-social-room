@@ -7,6 +7,15 @@ const cursorType = {
   username: a.string().required()
 }
 
+const messageType = {
+  id: a.id().required(),
+  createdDate: a.datetime().required(),
+  lastUpdatedDate: a.datetime().required(),
+  content: a.string().required(),
+  roomId: a.string().required(),
+  username: a.string().required()
+}
+
 const schema = a.schema({
   Room: a.model({
     topic: a.string(),
@@ -28,7 +37,24 @@ const schema = a.schema({
       entry: './subscribeCursor.js'
     })),
 
-    Cursor: a.customType(cursorType),
+  publishMessage: a.mutation()
+    .arguments(messageType)
+    .returns(a.ref('Message'))
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      entry: './publishMessage.js',
+    })),
+
+  subscribeMessage: a.subscription()
+    .for(a.ref('publishMessage'))
+    .arguments({ roomId: a.string(), myUsername: a.string() })
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.custom({
+      entry: './subscribeMessage.js'
+    })),
+
+  Cursor: a.customType(cursorType),
+  Message: a.model(messageType)
 
 }).authorization((allow) => [allow.authenticated()]);
 

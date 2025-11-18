@@ -41,6 +41,14 @@ export function RoomSelector({
         topic: newRoomName
       })
 
+      const { data: message } = await client.models.Message.create({
+        roomId: currentRoomId,
+        username: "System",
+        content: `Room "${newRoomName}" created`,
+        createdDate: new Date().toString(),
+        lastUpdatedDate: new Date().toString()
+      })
+
       if (room !== null) {
         onRoomChange(room.id)
       }

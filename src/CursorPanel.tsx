@@ -43,6 +43,16 @@ export function CursorPanel({ myUsername, currentRoomId }: CursorPanelProps) {
     const debouncedPublish = throttle(150, (username: string, x: number, y: number) => {
       // Add cursor publishing here
       client.mutations.publishCursor({ roomId: currentRoomId, username, x, y })
+      async () => {
+              const { data: message } = await client.models.Message.create({
+        roomId: currentRoomId,
+        username: "System",
+        content: `Room "${currentRoomId}" selected`,
+        createdDate: new Date().toString(),
+        lastUpdatedDate: new Date().toString()
+      })
+
+      }
     }, {
       noLeading: true
     })
