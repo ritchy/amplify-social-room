@@ -15,7 +15,7 @@ export function MessagePanel({ username, currentRoomId }: MessagePanelProps) {
         // Add message subscriptions here
         const sub = client.subscriptions.subscribeMessage({
             roomId: currentRoomId,
-            myUsername: username
+            myUsername: "default"
         }).subscribe({
             next: (event) => {
                 if (!event) { return }
@@ -34,16 +34,16 @@ export function MessagePanel({ username, currentRoomId }: MessagePanelProps) {
                     async () => {
                     const { data: message } = await client.models.Message.create({
                         roomId: currentRoomId,
-                        username: username,
+                        username: "default",
                         content: `message sent`,
-                        createdDate: new Date().toString(),
-                        lastUpdatedDate: new Date().toString()
+                        createdDate: "2025-11-18T20:23:00.000Z",
+                        lastUpdatedDate: "2025-11-18T20:23:00.000Z"
                     })
                     window.alert("Message sent")
                 }}>Send Message</button>
             </div>
             <div>
-                Message Room: {currentRoomId} | Message as: {username} | Message: {content}
+                Message Room: {currentRoomId} | Message as: default | Message: {content}
             </div>
         </div>
     )
