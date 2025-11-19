@@ -43,7 +43,7 @@ export function RoomSelector({
 
       const { data: message } = await client.models.Message.create({
         roomId: currentRoomId,
-        username: "System",
+        username: "default",
         content: `Room "${newRoomName}" created`,
         createdDate: new Date().toString(),
         lastUpdatedDate: new Date().toString()
